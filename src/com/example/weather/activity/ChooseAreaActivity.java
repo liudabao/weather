@@ -15,7 +15,10 @@ import com.example.weather.util.Utility;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
@@ -51,9 +54,20 @@ public class ChooseAreaActivity extends Activity{
 	
 	private int currentLevle;
 	
+	private boolean isFromWeatherActivity;
+	
 	public void onCreate(Bundle savedInstanceBundle){
 		super.onCreate(savedInstanceBundle);
 		setContentView(R.layout.choose_area);
+		
+		isFromWeatherActivity=getIntent().getBooleanExtra("from_weather_activity", false);
+		SharedPreferences prefs=PreferenceManager.getDefaultSharedPreferences(this);
+		if(prefs.getBoolean("city_selected", false)&&!isFromWeatherActivity){
+			Intent intent=new Intent(this,WeatherActivity.class);
+			startActivity(intent);
+			finish();
+			return;
+		}
 		listView=(ListView)findViewById(R.id.list_view);
 		title=(TextView)findViewById(R.id.title);
 		adapter=new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,dataList);
@@ -72,6 +86,13 @@ public class ChooseAreaActivity extends Activity{
 				else if(currentLevle==LEVEL_CITY){
 					selectedCity=cityList.get(position);
 					queryCounties();
+				}
+				else if(currentLevle==LEVEL_COUNTRY){
+					String countryCode=countryList.get(position).getCountryCode();
+					Intent intent=new Intent(ChooseAreaActivity.this,WeatherActivity.class);
+				    intent.putExtra("country_code", countryCode);
+				    startActivity(intent);
+				    finish();
 				}
 			}
 		});
@@ -220,6 +241,10 @@ public class ChooseAreaActivity extends Activity{
 			queryProvinces();
 		}
 		else{
+			if(isFromWeatherActivity){
+				Intent intent=new Intent(this,WeatherActivity.class);
+				startActivity(intent);
+			}
 			finish();
 		}
 	}
