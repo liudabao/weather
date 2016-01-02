@@ -81,7 +81,7 @@ public class WeatherDb {
 	
 	public List<City> loadCities(int provinceId){
 		List<City> list=new ArrayList<City>();
-		Cursor cursor=db.query("City", null, null, null, null, null, null);
+		Cursor cursor=db.query("City", null, "province_id=?", new String[]{String.valueOf(provinceId)}, null, null, null);
 		if(cursor.moveToFirst()){
 			do{
 				City city=new City();
@@ -109,7 +109,7 @@ public class WeatherDb {
 	
 	public List<Country> loadCounties(int cityId){
 		List<Country> list=new ArrayList<Country>();
-		Cursor cursor=db.query("Country", null, null, null, null, null, null);
+		Cursor cursor=db.query("Country", null, "city_id=?", new String[]{String.valueOf(cityId)}, null, null, null);
 		if(cursor.moveToFirst()){
 			do{
 				Country country=new Country();

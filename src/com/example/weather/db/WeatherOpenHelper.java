@@ -15,13 +15,13 @@ public class WeatherOpenHelper extends SQLiteOpenHelper{
 	public static final String CREATE_CITY="create table City("
 			+"id integer primary key autoincrement,"
 			+"city_name text,"
-			+"city_code text"
+			+"city_code text,"
 			+"province_id integer)";
 	
-	public static final String CREATE_COUNTRY="create table Coutry("
+	public static final String CREATE_COUNTRY="create table Country("
 			+"id integer primary key autoincrement,"
 			+"country_name text,"
-			+"country_code text"
+			+"country_code text,"
 			+"city_id integer)";
 	
 	public WeatherOpenHelper(Context context, String name,
@@ -35,7 +35,7 @@ public class WeatherOpenHelper extends SQLiteOpenHelper{
 		// TODO Auto-generated method stub
 		db.execSQL(CREATE_PROVINCE);
 		db.execSQL(CREATE_CITY);
-		db.equals(CREATE_COUNTRY);
+		db.execSQL(CREATE_COUNTRY);
 	}
 
 	@Override
